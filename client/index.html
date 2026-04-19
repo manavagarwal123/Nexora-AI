@@ -140,11 +140,19 @@
                 </div>
             </aside>
 
+            <!-- Mobile sidebar overlay backdrop -->
+            <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
             <!-- MAIN CHAT AREA -->
             <main class="chat-main">
 
                 <!-- CHAT HEADER -->
                 <header class="chat-header">
+                    <!-- Hamburger: only visible on mobile -->
+                    <button id="hamburgerBtn" class="icon-btn hamburger-btn" onclick="toggleMobileSidebar()" title="Menu" aria-label="Open sidebar">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
                     <div class="chat-title-info">
                         <div class="avatar-large" id="chatHeaderAvatar">
                             <i class="fa-solid fa-users text-gradient"></i>

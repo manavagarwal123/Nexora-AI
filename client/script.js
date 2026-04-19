@@ -496,6 +496,36 @@ function logout(ask = true) {
     }
 }
 
+// ===== MOBILE SIDEBAR TOGGLE =====
+function toggleMobileSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar.classList.contains('mobile-open')) {
+        closeMobileSidebar();
+    } else {
+        openMobileSidebar();
+    }
+}
+
+function openMobileSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.add('mobile-open');
+    if (overlay) {
+        overlay.style.display = 'block';
+        setTimeout(() => overlay.classList.add('active'), 10);
+    }
+}
+
+function closeMobileSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    sidebar.classList.remove('mobile-open');
+    if (overlay) {
+        overlay.classList.remove('active');
+        setTimeout(() => { overlay.style.display = 'none'; }, 300);
+    }
+}
+
 // ===== SELECT USER =====
 function selectUser(user) {
     mode = "private";
@@ -509,6 +539,7 @@ function selectUser(user) {
     updateGroupListStyles();
     renderMessages();
     hideAiSuggestions();
+    closeMobileSidebar(); // auto-close drawer on mobile after selecting
 
     // Mark unseen messages as seen
     const history = chats.private[selectedUser.userId] || [];
@@ -576,6 +607,7 @@ function selectGroup(groupId) {
     updateGroupListStyles();
     renderMessages();
     hideAiSuggestions();
+    closeMobileSidebar(); // auto-close drawer on mobile after selecting
 }
 
 function updateGroupListStyles() {
