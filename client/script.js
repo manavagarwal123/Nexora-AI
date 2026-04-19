@@ -12,7 +12,7 @@ function connectWS() {
         reconnectTimeout = null;
     }
 
-    socket = new WebSocket("wss://nexora-ai-b915.onrender.com");
+    socket = new WebSocket("wss://nexora-ai-b915.onrender.com/");
 
     socket.onopen = () => {
         console.log("Connected to server.");
@@ -395,11 +395,17 @@ function submitAuth() {
     if (!socket || socket.readyState !== WebSocket.OPEN) {
         connectWS();
 
+        let retries = 0;
         const waitForSocket = setInterval(() => {
             if (socket && socket.readyState === WebSocket.OPEN) {
                 clearInterval(waitForSocket);
-                submitAuth(); // retry auth once socket is ready
+                submitAuth();
+            } else if (retries > 50) { // stop after ~5 seconds
+                clearInterval(waitForSocket);
+                showAuthError("Unable to connect to server. Please try again.");
+                setAuthLoading(false);
             }
+            retries++;
         }, 100);
 
         return;

@@ -76,6 +76,7 @@ body {
     color: var(--text-primary);
     height: 100vh;
     overflow: hidden;
+    min-height: 100dvh;
     position: relative;
     display: flex;
     justify-content: center;
@@ -157,6 +158,7 @@ body {
     width: 100%;
     max-width: 1300px;
     height: 92vh;
+    max-height: 100dvh;
     display: flex;
     padding: 16px;
     z-index: 10;
@@ -1502,7 +1504,8 @@ body {
 @media (max-width: 680px) {
     .app-container {
         padding: 0;
-        height: 100vh;
+        height: 100dvh;
+        max-height: 100dvh;
     }
 
     .glass-panel {
@@ -1527,5 +1530,25 @@ body {
 
     .message {
         max-width: 85%;
+    }
+
+    body {
+        overflow: auto;
+    }
+
+    .messages-container {
+        padding: 16px 12px;
+    }
+
+    .chat-header {
+        padding: 0 12px;
+    }
+
+    .glass-input {
+        padding: 6px 6px 6px 10px;
+    }
+
+    .sidebar {
+        width: 240px;
     }
 }
