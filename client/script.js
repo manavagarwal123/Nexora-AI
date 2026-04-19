@@ -391,15 +391,16 @@ function submitAuth() {
 
     setAuthLoading(true);
 
-    // Initialize websocket connection for auth cycle
+    // Ensure WebSocket is connected before sending auth
     if (!socket || socket.readyState !== WebSocket.OPEN) {
         connectWS();
 
-        setTimeout(() => {
+        const waitForSocket = setInterval(() => {
             if (socket && socket.readyState === WebSocket.OPEN) {
-                submitAuth();
+                clearInterval(waitForSocket);
+                submitAuth(); // retry auth once socket is ready
             }
-        }, 500);
+        }, 100);
 
         return;
     }
