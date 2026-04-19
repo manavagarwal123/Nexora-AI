@@ -1502,20 +1502,10 @@ body {
    RESPONSIVE — Mobile
    ============================================================ */
 @media (max-width: 680px) {
-    body {
-        overflow: hidden;
-    }
-
     .app-container {
         padding: 0;
-        height: 100vh;
-        max-height: 100vh;
-        width: 100vw;
-    }
-
-    .chat-interface {
-        height: 100vh;
-        width: 100vw;
+        height: 100dvh;
+        max-height: 100dvh;
     }
 
     .glass-panel {
@@ -1523,38 +1513,42 @@ body {
     }
 
     .sidebar {
-        position: fixed;
-        left: -100%;
-        top: 0;
-        width: 75%;
-        height: 100vh;
-        z-index: 1000;
-        background: var(--sidebar-bg);
-        transition: left 0.3s ease;
+        position: absolute;
+        z-index: 100;
+        height: 100%;
+        transform: translateX(-100%);
+        transition: transform var(--transition-slow);
     }
 
-    .sidebar.show {
-        left: 0;
+    .sidebar.mobile-open {
+        transform: translateX(0);
     }
 
     .chat-main {
         width: 100%;
-        height: 100vh;
-    }
-
-    .messages-container {
-        padding: 12px;
     }
 
     .message {
         max-width: 85%;
     }
 
+    body {
+        overflow: auto;
+    }
+
+    .messages-container {
+        padding: 16px 12px;
+    }
+
     .chat-header {
-        padding: 0 10px;
+        padding: 0 12px;
     }
 
     .glass-input {
-        padding: 6px 8px;
+        padding: 6px 6px 6px 10px;
+    }
+
+    .sidebar {
+        width: 240px;
     }
 }
