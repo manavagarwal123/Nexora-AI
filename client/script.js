@@ -12,7 +12,7 @@ function connectWS() {
         reconnectTimeout = null;
     }
 
-    socket = new WebSocket("ws://localhost:8080");
+    socket = new WebSocket("wss://nexora-ai-b915.onrender.com");
 
     socket.onopen = () => {
         console.log("Connected to server.");
