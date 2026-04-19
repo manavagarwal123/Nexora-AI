@@ -4,8 +4,8 @@
 
 <br/>
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Frontend-6c5ce7?style=for-the-badge&logo=netlify)](https://your-nexora-frontend.netlify.app)
-[![Backend](https://img.shields.io/badge/Backend-Render-00d2be?style=for-the-badge&logo=render)](https://your-nexora-backend.onrender.com)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Frontend-6c5ce7?style=for-the-badge&logo=netlify)](https://nexora-manav.netlify.app/)
+[![Backend](https://img.shields.io/badge/Backend-Render-00d2be?style=for-the-badge&logo=render)](https://nexora-ai-b915.onrender.com/)
 [![License](https://img.shields.io/badge/License-MIT-a29bfe?style=for-the-badge)](LICENSE)
 
 ---
@@ -14,8 +14,8 @@
 
 | Service    | URL                                        |
 |------------|--------------------------------------------|
-| Frontend   | `https://your-nexora-frontend.netlify.app` |
-| Backend    | `https://your-nexora-backend.onrender.com` |
+| Frontend   | `https://nexora-manav.netlify.app/` |
+| Backend    | `https://nexora-ai-b915.onrender.com/` |
 
 > **Note:** The backend is hosted on Render's free tier — it may take ~30s to cold-start on the first connection.
 
