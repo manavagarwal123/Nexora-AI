@@ -12,10 +12,14 @@ function connectWS() {
         reconnectTimeout = null;
     }
 
-    socket = new WebSocket("wss://nexora-ai-b915.onrender.com/");
+    // Auto-detect protocol for mobile + production
+    const protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+    const host = "nexora-ai-b915.onrender.com";
+    socket = new WebSocket(protocol + host);
 
     socket.onopen = () => {
         console.log("Connected to server.");
+        console.log("WebSocket URL:", socket.url);
         // Always attempt auto-reconnect when we have a stored userId
         // This covers both page refreshes and network reconnects
         if (currentUserId) {
@@ -28,6 +32,7 @@ function connectWS() {
         if (!reconnectTimeout) {
             reconnectTimeout = setTimeout(() => {
                 reconnectTimeout = null;
+                // Retry connection (important for mobile networks)
                 connectWS();
             }, 3000);
         }
@@ -400,9 +405,9 @@ function submitAuth() {
             if (socket && socket.readyState === WebSocket.OPEN) {
                 clearInterval(waitForSocket);
                 submitAuth();
-            } else if (retries > 50) { // stop after ~5 seconds
+            } else if (retries > 80) { // allow more time for mobile networks (~8s)
                 clearInterval(waitForSocket);
-                showAuthError("Unable to connect to server. Please try again.");
+                showAuthError("Slow network. Please try again.");
                 setAuthLoading(false);
             }
             retries++;
