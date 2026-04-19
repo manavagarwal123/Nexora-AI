@@ -188,8 +188,8 @@ python3 -m http.server 3000
 
 **Manav Agarwal**
 
-- GitHub: [@manavagarwal](https://github.com/manavagarwal)
-- LinkedIn: [linkedin.com/in/manavagarwal](https://linkedin.com/in/manavagarwal)
+- GitHub: [@manavagarwal](https://github.com/manavagarwal123)
+- LinkedIn: [linkedin.com/in/manavagarwal](https://linkedin.com/in/manavagarwal70)
 
 ---
 
