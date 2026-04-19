@@ -1,0 +1,27 @@
+{
+  "manav": {
+    "username": "manav",
+    "passwordHash": "$2b$10$1L0z3S/RqnYPVyN1YnfWZOv3OS.wXbbhDWFy0aDcFqQFdudrgvJlK",
+    "userId": "ic11rd4ks7"
+  },
+  "abcde": {
+    "username": "abcde",
+    "passwordHash": "$2b$10$JgsYSdAyASNKQNyA.JNqged8X0VMLVZlU9qFlJ9dAhGutXf4rMpP6",
+    "userId": "snf3poguak"
+  },
+  "user111user1": {
+    "username": "user111user1",
+    "passwordHash": "$2b$10$HKkzbNPPVkumKKfr0iuPOes9ksUCZu2CNo21igVUpgol8ORIPEtpe",
+    "userId": "4cgwo16"
+  },
+  "usera": {
+    "username": "userA",
+    "passwordHash": "$2b$10$GKfvTq50Mru6rBiB1GDxQum1DH4zQBMZP1doM/1/Jg5FnBasBadl2",
+    "userId": "4cgwo16"
+  },
+  "userb": {
+    "username": "userB",
+    "passwordHash": "$2b$10$6iFX8qY3jrxJ8..Y22Im2e48Zci413XPp5p35ay5iA82kIO1HT11m",
+    "userId": "4cgwo16"
+  }
+}

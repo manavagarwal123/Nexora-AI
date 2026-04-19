@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexora AI</title>
+    <meta name="description" content="Premium real-time group and private chat powered by AI suggestions.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Animated Background Orbs -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+    <div class="bg-shape shape3"></div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+
+    <div class="app-container">
+
+        <!-- ========================= AUTH SCREEN ========================= -->
+        <div id="authScreen" class="glass-panel auth-panel">
+            <div class="brand">
+                <i class="fa-brands fa-rocketchat brand-icon"></i>
+                <h2>Nexora AI</h2>
+                <p class="subtitle" id="authSubtitle">Log in to your workspace.</p>
+            </div>
+
+            <!-- Error Box -->
+            <div id="authErrorBox" class="auth-error" style="display: none;">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span id="authErrorMessage">Username is required.</span>
+            </div>
+
+            <form id="authForm" onsubmit="event.preventDefault(); submitAuth();">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input id="usernameInput" type="text" placeholder="Enter Username" required autocomplete="off">
+                </div>
+
+                <div class="input-group" style="margin-bottom: 22px;">
+                    <i class="fa-solid fa-lock"></i>
+                    <input id="passwordInput" type="password" placeholder="Enter Password" required autocomplete="off">
+                </div>
+
+                <div class="auth-actions" style="position: relative; margin-bottom: 20px;">
+                    <button type="submit" id="authSubmitBtn" class="btn-primary">
+                        <span>Login</span>
+                    </button>
+                    <div id="authLoader" class="loader" style="display: none;"></div>
+                </div>
+
+                <div class="auth-toggle">
+                    <span id="authToggleText">New to Nexora Chat?</span>
+                    <a href="#" id="authToggleLink" onclick="event.preventDefault(); toggleAuthMode();">Create an
+                        account</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- ========================= CHAT INTERFACE ========================= -->
+        <div id="chatScreen" class="glass-panel chat-interface" style="display:none;">
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="brand-small">
+                        <i class="fa-brands fa-rocketchat"></i>
+                        <span>Nexora AI</span>
+                    </div>
+                </div>
+
+                <!-- Scrollable sidebar content -->
+                <div class="sidebar-scroll">
+
+                    <div class="sidebar-menu">
+                        <!-- CREATE GROUP -->
+                        <button id="createGroupBtn" class="menu-item" onclick="createGroup()">
+                            <i class="fa-solid fa-people-group"></i>
+                            <span class="menu-text">Create Group</span>
+                        </button>
+
+                        <!-- CONNECT BY ID -->
+                        <button id="connectUserBtn" class="menu-item" onclick="showConnectInput()">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span class="menu-text">Connect by ID</span>
+                        </button>
+                    </div>
+
+                    <!-- Connect input panel -->
+                    <div id="connectInputWrapper" style="display: none;">
+                        <input id="connectIdInput" type="text" placeholder="Enter User ID to connect" autocomplete="off"
+                            onkeypress="if(event.key==='Enter'){ connectToUser(); }">
+                        <button onclick="connectToUser()" class="btn-primary">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Start Chat
+                        </button>
+                    </div>
+
+                    <!-- YOUR GROUPS -->
+                    <div class="groups-section">
+                        <div class="section-header">
+                            <h3>Your Groups</h3>
+                        </div>
+                        <div id="groupsList" class="users-list"></div>
+                    </div>
+
+                    <!-- DIRECT MESSAGES -->
+                    <div class="online-users-section">
+                        <div class="section-header">
+                            <h3>Direct Messages</h3>
+                            <span id="onlineCount" class="badge">0</span>
+                        </div>
+                        <div id="users" class="users-list"></div>
+                    </div>
+
+                </div><!-- /sidebar-scroll -->
+
+                <!-- PROFILE BAR -->
+                <div class="user-profile-bottom">
+                    <div class="avatar" id="myAvatarEl">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <div class="user-info">
+                        <span id="currentUserDisplay">You</span>
+                        <span class="status-indicator">Online</span>
+                        <span id="myConnectionId"></span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- MAIN CHAT AREA -->
+            <main class="chat-main">
+
+                <!-- CHAT HEADER -->
+                <header class="chat-header">
+                    <div class="chat-title-info">
+                        <div class="avatar-large" id="chatHeaderAvatar">
+                            <i class="fa-solid fa-users text-gradient"></i>
+                        </div>
+                        <div class="chat-details">
+                            <h2 id="chatUser">Nexora AI</h2>
+                            <span id="modeIndicator" class="typing-indicator-text">Select a chat to begin</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button type="button" id="deleteGroupBtn" class="icon-btn" style="display:none;"
+                            onclick="deleteGroup()" title="Delete Group">
+                            <i class="fa-solid fa-trash" style="color: var(--error-text);"></i>
+                        </button>
+                        <button type="button" id="addMemberBtn" class="icon-btn" style="display:none;"
+                            onclick="addGroupMember()" title="Group Info">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </button>
+                        <button type="button" class="icon-btn" onclick="logout()" title="Sign out">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- MESSAGES -->
+                <div id="messages" class="messages-container"></div>
+
+                <!-- INPUT AREA -->
+                <div class="chat-input-wrapper">
+                    <!-- AI Smart Replies -->
+                    <div id="aiSuggestions" class="ai-suggestions" style="display: none;">
+                        <span class="ai-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Suggested</span>
+                        <div id="aiPillsContainer" class="pills-container"></div>
+                    </div>
+
+                    <div class="input-area glass-input">
+                        <button class="icon-btn attach-btn" type="button" title="Attach"><i
+                                class="fa-solid fa-paperclip"></i></button>
+                        <input id="messageInput" placeholder="Type a message..." autocomplete="off">
+                        <button class="icon-btn smile-btn" type="button" title="Emoji"><i
+                                class="fa-regular fa-face-smile"></i></button>
+                        <button class="btn-send" type="button" onclick="sendMessage()" title="Send">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+        <!-- ========================= MODALS ========================= -->
+
+        <!-- Create Group Modal -->
+        <div id="createGroupModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title"><i class="fa-solid fa-people-group"
+                            style="margin-right:8px;font-size:0.95rem;"></i>New Group</span>
+                    <button class="modal-close" onclick="closeModal('createGroupModal')">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+                <div class="input-group" style="margin-bottom: 0;">
+                    <i class="fa-solid fa-users"></i>
+                    <input id="newGroupNameInput" type="text" placeholder="Group name e.g. Team Alpha"
+                        autocomplete="off">
+                </div>
+                <button type="button" class="btn-primary" onclick="submitCreateGroup()">
+                    <i class="fa-solid fa-check"></i> Create Group
+                </button>
+            </div>
+        </div>
+
+        <!-- Group Info / Add Member Modal -->
+        <div id="groupInfoModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title" id="modalGroupName">Group Info</span>
+                    <button class="modal-close" onclick="closeModal('groupInfoModal')">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="modal-section-label">Add Member</div>
+                <div class="input-group" style="margin-bottom: 0;">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <input id="addMemberInput" type="text" placeholder="Enter User ID" autocomplete="off">
+                </div>
+                <button type="button" class="btn-primary" onclick="submitAddMember()">
+                    <i class="fa-solid fa-user-plus"></i> Add to Group
+                </button>
+
+                <div class="modal-section-label" style="margin-top: 4px;">Members</div>
+                <div id="modalMembersList" class="group-members-list"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

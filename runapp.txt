@@ -1,0 +1,7 @@
+
+#frontend folder 
+go live server for html file 
+
+#for backend folder 
+cd server
+node server.js 
